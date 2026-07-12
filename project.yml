@@ -1,0 +1,52 @@
+name: TLNHours
+options:
+  bundleIdPrefix: com.ncdmr
+  deploymentTarget:
+    macOS: "13.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    DEVELOPMENT_TEAM: ""
+targets:
+  TLNHours:
+    type: application
+    platform: macOS
+    sources:
+      - path: TLNHours
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ncdmr.tlnhours
+        PRODUCT_NAME: TLNHours
+        ENABLE_HARDENED_RUNTIME: false
+    info:
+      path: Generated/TLNHours-Info.plist
+      properties:
+        LSUIElement: true
+        CFBundleDisplayName: TLN Hours
+        CFBundleShortVersionString: "1.3"
+        CFBundleVersion: "4"
+        NSHumanReadableCopyright: ""
+  TLNHoursTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: TLNHoursTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ncdmr.tlnhours.tests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: TLNHours
+schemes:
+  TLNHours:
+    build:
+      targets:
+        TLNHours: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - TLNHoursTests

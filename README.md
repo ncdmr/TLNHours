@@ -6,7 +6,7 @@ zone-tracking.
 
 See [GETTING_STARTED.md](GETTING_STARTED.md) for how it works, how to set up
 Home Assistant, and how to connect the app — that's the doc bundled into the
-release DMG for colleagues.
+release DMG.
 
 ## Build
 
@@ -18,7 +18,7 @@ xcodebuild -project TLNHours.xcodeproj -scheme TLNHours -configuration Debug bui
 
 Or open `TLNHours.xcodeproj` in Xcode after running `xcodegen generate`.
 
-## Distributing to colleagues
+## Building a release DMG
 
 ```sh
 ./scripts/release.sh          # builds dist/TLNHours-<version>.dmg
@@ -35,3 +35,8 @@ someone opens it — see GETTING_STARTED.md for the workaround.
 Settings has a "Developer: Simulate Work Session" section for testing without
 touching HA — enable "mock mode", toggle "At work", and adjust "Hours worked"
 to preview the countdown and its `+`/`-` overtime behavior.
+
+## Credits
+
+Built collaboratively with [Claude](https://claude.com) (Anthropic) — from
+features and tests through release packaging and these docs.

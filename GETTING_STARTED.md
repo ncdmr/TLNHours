@@ -26,7 +26,7 @@ from that moment toward the 8h and 8h30 targets. When the state leaves
 `Work`, it goes back to "away".
 
 Everything below happens in your own Home Assistant instance — nothing is
-shared between colleagues' setups.
+shared between different people's setups.
 
 ## 1. Set up Home Assistant
 

@@ -1,3 +1,4 @@
+import ServiceManagement
 import SwiftUI
 
 struct SettingsView: View {
@@ -9,6 +10,7 @@ struct SettingsView: View {
     @State private var entityId: String = "person.nic"
     @State private var testResult: TestResult = .idle
     @State private var isTesting = false
+    @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
     @AppStorage(DisplayPreferenceKey.showArrivalTime) private var showArrivalTime = true
     @AppStorage(DisplayPreferenceKey.show8hCountdown) private var show8hCountdown = true
@@ -78,7 +80,16 @@ struct SettingsView: View {
             #endif
 
             Divider()
-            Button("Quit TLNHours") { NSApplication.shared.terminate(nil) }
+            HStack {
+                Button("Quit TLNHours") { NSApplication.shared.terminate(nil) }
+
+                Spacer()
+
+                Toggle("Launch at login", isOn: $launchAtLogin)
+                    .onChange(of: launchAtLogin) { newValue in
+                        setLaunchAtLogin(newValue)
+                    }
+            }
         }
         .padding()
         .frame(width: 360)
@@ -98,29 +109,32 @@ struct SettingsView: View {
     @ViewBuilder
     private var displaySection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Target Format")
+            Text("Menu Bar Format")
                 .font(.headline)
             Toggle("Icon only", isOn: $menuBarIconOnly)
-            Picker("", selection: $targetDisplayMode) {
-                ForEach(TargetDisplayMode.allCases) { mode in
-                    Text(mode.label).tag(mode)
+
+            if !menuBarIconOnly {
+                Picker("", selection: $targetDisplayMode) {
+                    ForEach(TargetDisplayMode.allCases) { mode in
+                        Text(mode.label).tag(mode)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+
+                Text("Menu Bar Text When at Work")
+                    .font(.headline)
+                Text("The dropdown always shows all three.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                Toggle("Arrival time", isOn: $showArrivalTime)
+                    .disabled(showArrivalTime && enabledFieldCount == 1)
+                Toggle("8h target", isOn: $show8hCountdown)
+                    .disabled(show8hCountdown && enabledFieldCount == 1)
+                Toggle("8h30 target", isOn: $show830Countdown)
+                    .disabled(show830Countdown && enabledFieldCount == 1)
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-
-            Text("Menu Bar Text When at Work")
-                .font(.headline)
-            Text("The dropdown always shows all three.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            Toggle("Arrival time", isOn: $showArrivalTime)
-                .disabled(showArrivalTime && enabledFieldCount == 1)
-            Toggle("8h target", isOn: $show8hCountdown)
-                .disabled(show8hCountdown && enabledFieldCount == 1)
-            Toggle("8h30 target", isOn: $show830Countdown)
-                .disabled(show830Countdown && enabledFieldCount == 1)
         }
     }
 
@@ -172,5 +186,18 @@ struct SettingsView: View {
         }
         model.saveCredentials(HACredentials(baseURL: url, token: token, entityId: entityId))
         dismiss()
+    }
+
+    private func setLaunchAtLogin(_ enabled: Bool) {
+        do {
+            if enabled {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+        } catch {
+            // Revert the toggle to reflect the actual registration state.
+            launchAtLogin = SMAppService.mainApp.status == .enabled
+        }
     }
 }

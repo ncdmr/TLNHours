@@ -14,6 +14,7 @@ struct SettingsView: View {
     @AppStorage(DisplayPreferenceKey.show8hCountdown) private var show8hCountdown = true
     @AppStorage(DisplayPreferenceKey.show830Countdown) private var show830Countdown = true
     @AppStorage(DisplayPreferenceKey.targetDisplayMode) private var targetDisplayMode = TargetDisplayMode.countdown
+    @AppStorage(DisplayPreferenceKey.menuBarIconOnly) private var menuBarIconOnly = false
     @AppStorage(DisplayPreferenceKey.hardenTokenStorage) private var hardenTokenStorage = true
 
     enum TestResult: Equatable {
@@ -75,6 +76,9 @@ struct SettingsView: View {
             Divider()
             mockSection
             #endif
+
+            Divider()
+            Button("Quit TLNHours") { NSApplication.shared.terminate(nil) }
         }
         .padding()
         .frame(width: 360)
@@ -96,6 +100,7 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Target Format")
                 .font(.headline)
+            Toggle("Icon only", isOn: $menuBarIconOnly)
             Picker("", selection: $targetDisplayMode) {
                 ForEach(TargetDisplayMode.allCases) { mode in
                     Text(mode.label).tag(mode)
@@ -103,9 +108,6 @@ struct SettingsView: View {
             }
             .pickerStyle(.segmented)
             .labelsHidden()
-            Text("Applies to the menu bar text only \u{2014} the dropdown always shows leave time and countdown together.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
 
             Text("Menu Bar Text When at Work")
                 .font(.headline)

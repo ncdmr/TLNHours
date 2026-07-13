@@ -8,6 +8,7 @@ enum DisplayPreferenceKey {
     static let show8hCountdown = "show8hCountdown"
     static let show830Countdown = "show830Countdown"
     static let targetDisplayMode = "targetDisplayMode"
+    static let menuBarIconOnly = "menuBarIconOnly"
     static let hardenTokenStorage = "hardenTokenStorage"
 }
 

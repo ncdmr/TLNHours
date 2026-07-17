@@ -25,6 +25,16 @@ enum WorkSession {
         return "\(sign)\(hours)h\(String(format: "%02d", minutes))m"
     }
 
+    /// Human-friendly phrasing for the dropdown: "2h45m to go" while short of
+    /// the target, "15m over" once it's passed.
+    static func remainingLabel(_ diff: TimeInterval) -> String {
+        let totalMinutes = Int(diff.magnitude) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        let magnitude = hours > 0 ? "\(hours)h\(String(format: "%02d", minutes))m" : "\(minutes)m"
+        return diff >= 0 ? "\(magnitude) over" : "\(magnitude) to go"
+    }
+
     static func timeLabel(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"

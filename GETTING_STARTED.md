@@ -119,6 +119,24 @@ you, turn off **Harden token storage** in Settings — it stores the token in
 a plain-text file at `~/.TLNHours.cfg` instead (readable only by you, but
 not encrypted). Either way, nothing leaves your Mac.
 
+## Display options
+
+Settings has a **Menu Bar Format** section for how the menu bar looks:
+
+- **Icon only** toggle — hides the arrival/leave-time text and shows just the
+  briefcase icon. When it's on, the rest of the section (the Countdown /
+  Leave time picker and the "Menu Bar Text When at Work" toggles) is hidden
+  since it no longer applies. The dropdown itself always shows the full leave
+  time and countdown together, regardless of this setting.
+- The **Countdown / Leave time** picker only changes the menu bar text itself
+  — it doesn't affect the dropdown, which always shows leave time and
+  countdown together.
+
+## Launch at login
+
+Settings has a **Launch at login** toggle (next to **Quit TLNHours**) to have
+the app start automatically after you log in or reboot.
+
 ## History
 
 The dropdown has a "History…" button that shows a local log of completed

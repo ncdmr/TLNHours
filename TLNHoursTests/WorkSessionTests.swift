@@ -56,6 +56,22 @@ final class WorkSessionTests: XCTestCase {
         XCTAssertEqual(WorkSession.formatDiff(0), "+0h00m")
     }
 
+    func testRemainingLabelUnderTarget() {
+        XCTAssertEqual(WorkSession.remainingLabel(-2 * 3600 - 45 * 60), "2h45m to go")
+    }
+
+    func testRemainingLabelOverTarget() {
+        XCTAssertEqual(WorkSession.remainingLabel(3600 + 5 * 60), "1h05m over")
+    }
+
+    func testRemainingLabelUnderAnHour() {
+        XCTAssertEqual(WorkSession.remainingLabel(-15 * 60), "15m to go")
+    }
+
+    func testRemainingLabelAtZero() {
+        XCTAssertEqual(WorkSession.remainingLabel(0), "0m over")
+    }
+
     func testTargetTimeIsArrivalPlusOffset() {
         let arrived = Date(timeIntervalSince1970: 0)
         let leave8h = WorkSession.targetTime(arrived: arrived, target: WorkSession.target8h)

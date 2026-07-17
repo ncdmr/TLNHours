@@ -125,3 +125,9 @@ The dropdown has a "History…" button that shows a local log of completed
 work sessions. It's stored as plain text at `~/.TLNHours.log` (one line per
 day, format `<date>-<time arrived>-<time left>-<worked hours>`, documented
 in a comment at the top of the file) and never leaves your Mac.
+
+If a brief GPS/zone-tracking glitch ever logs a bogus session (e.g. a
+momentary drop from the Work zone and back), you can fix it by hand: open
+`~/.TLNHours.log` in any text editor, delete or correct the offending line,
+and save. The app only ever appends to this file — it never rewrites or
+caches it — so your edit takes effect the next time you open History.
